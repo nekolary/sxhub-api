@@ -1,0 +1,17 @@
+{
+  "name": "intern-ai-hub",
+  "version": "2.0.0",
+  "description": "实习赋能三方协同平台 - CloudBase 架构",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "update-site": "echo '详见 deploy.md 使用云开发控制台更新'"
+  },
+  "dependencies": {
+    "express": "^4.21.0"
+  },
+  "devDependencies": {
+    "jsdom": "^29.1.1"
+  }
+}
