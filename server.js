@@ -42,11 +42,13 @@ app.use(express.json({ limit: '10mb' }));
 // ─── CORS：允许本地前端跨域访问 ───
 app.use((req, res, next) => {
   const origin = req.headers.origin;
-  if (!origin || origin === 'null' || origin.includes('localhost') || origin.includes('127.0.0.1')) {
-    res.header('Access-Control-Allow-Origin', origin || '*');
+  // 允许所有来源（本地 + sxhub.xyz + Railway 自身）
+  if (origin) {
+    res.header('Access-Control-Allow-Origin', origin);
   }
   res.header('Access-Control-Allow-Headers', 'Content-Type');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, DELETE');
+  res.header('Access-Control-Allow-Credentials', 'true');
   if (req.method === 'OPTIONS') return res.sendStatus(200);
   next();
 });
