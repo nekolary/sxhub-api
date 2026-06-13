@@ -398,6 +398,18 @@ app.post('/api/collections/restore', (req, res) => {
     res.status(500).json({ success: false, error: err.message });
   }
 });
+// ─── 数据恢复：直接覆写 collections.json ───
+app.post('/api/collections/restore', (req, res) => {
+  try {
+    const { data } = req.body;
+    if (!Array.isArray(data)) return res.status(400).json({ success: false, error: '需要 data 数组' });
+    writeJSON(COLLECTIONS_FILE, data);
+    res.json({ success: true, count: data.length });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
 
 // 初始化数据（从浏览器 localStorage 迁移到服务器）
 app.post('/api/db/init', (req, res) => {
