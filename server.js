@@ -380,7 +380,13 @@ app.post('/api/db/save', (req, res) => {
   try {
     const { db } = req.body;
     if (!db) return res.status(400).json({ success: false, error: '缺少 db 数据' });
-    saveAppData({ _id: 'main', ...db });
+    const existing = getAppData() || {};
+const merged = { ...existing, ...db };
+if (db.users && existing.users && db.users.length < existing.users.length) merged.users = existing.users;
+if (db.relations && existing.relations && db.relations.length < existing.relations.length) merged.relations = existing.relations;
+if (db.batches && existing.batches && db.batches.length < existing.batches.length) merged.batches = existing.batches;
+saveAppData(merged);
+
     res.json({ success: true });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
